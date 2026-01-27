@@ -1,0 +1,15 @@
+🛠️ System Architecture
+
+1.The Transmitter (Glove)
+Processor: Arduino Nano/ESP32
+Sensor: MPU6050 (Accelerometer & Gyroscope)
+Communication: NRF24L01 / HC-05
+Logic: Reads X and Y angles; maps them to directional commands
+
+
+2. The Receiver (Car)
+Processor: Arduino Nano 
+Signal Receiver : NRF24L01 + PA + LNA & Adapter
+Motor Driver: L298N Dual H-Bridge
+Actuators: DC Gear Motors
+Logic: Receives commands and adjusts motor polarity and speed.
