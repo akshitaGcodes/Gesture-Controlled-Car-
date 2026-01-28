@@ -4,6 +4,7 @@ Components :-
 1 NRF24L01 + Adapter
 1 Breadboard
 1 L289N
+1 Battery Source
 
 Motor Driver - L289N Connections :-
 
@@ -34,4 +35,6 @@ MOSI -> D11
 MISO -> D12
 IRO  -> Left vaccant
 
-
+Battery Connections :-
++ve -> to +ve rail(where motor driver's 12 V is connected)
+-ve -> to all gnds and -ve's
