@@ -5,7 +5,7 @@ A DIY robotics project that uses hand gestures to navigate a car in real-time. N
 The goal of this project is to replace traditional joystick controllers with intuitive hand gestures. By tilting a wearable "glove" or transmitter, the user can control the direction and speed of the vehicle.
 
 Key Features
-Wireless Control: Real-time data transmission via 2.4GHz RF/Bluetooth.
+Wireless Control: Real-time data transmission via 2.4GHz RF.
 
 Precision Sensing: 6-axis motion tracking (Accelerometer + Gyro).
 
