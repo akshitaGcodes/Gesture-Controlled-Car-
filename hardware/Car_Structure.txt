@@ -15,15 +15,15 @@ Output 4 -> -ve Left Motors
 
 + 12 V -> connected to +ve rail , (then connected to battery)
 GND    -> connected to -ve rail , (then connected to battery)
-+5 V   -> connected to +ve rail
++5 V   -> connected to +ve rail , (different rail then +12 V )
 
 Enable A -> D5
 Enable B -> D6
 
-Input 1 ->
-Input 2 ->
-Input 3 ->
-Input 4 ->
+Input 1 -> D2
+Input 2 -> D3
+Input 3 -> D4
+Input 4 -> D7
 
 Receiver - NRF24L01 Connections :-
 VCC  -> +5V
