@@ -1,1 +1,30 @@
+Components :-
+1 Arduino Nano
+1 NRF24L01 + Adapter
+1 Breadboard Mini
+1 Battery Source (9V)
+1 MPU6050(Accelerator & Gyroscope)
 
+Transmitter - NRF24L01 Connections :-
+VCC  -> +5V
+GND  -> GND Nano
+CE   -> D8
+CS   -> D9
+CLK  -> D13
+MOSI -> D11
+MISO -> D12
+IRO  -> Left vaccant
+
+MPU6050(Accelerator & Gyroscope) :-
+VCC  -> +5V
+GND  -> GND Nano
+SCL  -> D19/A5
+SDA  -> D18/A4
+XDA  ->
+XCL  ->
+ADO  ->
+INT  ->
+
+Battery Connections :-
++ve -> Vin
+-ve -> GND Nano
