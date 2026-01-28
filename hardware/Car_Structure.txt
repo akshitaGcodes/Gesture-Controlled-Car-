@@ -1,1 +1,37 @@
+Components :-
+4 motors
+1 Arduino Nano
+1 NRF24L01 + Adapter
+1 Breadboard
+1 L289N
+
+Motor Driver - L289N Connections :-
+
+Output 1 -> +ve Right Motors
+Output 2 -> -ve Right Motors
+Output 3 -> +ve Left Motors
+Output 4 -> -ve Left Motors
+
++ 12 V -> connected to +ve rail , (then connected to battery)
+GND    -> connected to -ve rail , (then connected to battery)
++5 V   -> connected to +ve rail
+
+Enable A -> D5
+Enable B -> D6
+
+Input 1 ->
+Input 2 ->
+Input 3 ->
+Input 4 ->
+
+Receiver - NRF24L01 Connections :-
+VCC  -> +5V
+GND  -> Gnd Rail 
+CE   -> D8
+CS   -> D9
+CLK  -> D13
+MOSI -> D11
+MISO -> D12
+IRO  -> Left vaccant
+
 
