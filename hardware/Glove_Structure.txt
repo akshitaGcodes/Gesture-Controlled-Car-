@@ -9,10 +9,10 @@ Transmitter - NRF24L01 Connections :-
 VCC  -> +5V
 GND  -> GND Nano
 CE   -> D8
-CS   -> D9
-CLK  -> D13
-MOSI -> D11
-MISO -> D12
+CSN   -> D9
+SCK  -> D13
+MO -> D11
+MI -> D12
 IRO  -> Left vaccant
 
 MPU6050(Accelerator & Gyroscope) :-
