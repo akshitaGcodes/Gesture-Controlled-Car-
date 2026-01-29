@@ -28,11 +28,11 @@ Input 4 -> D7
 Receiver - NRF24L01 Connections :-
 VCC  -> +5V
 GND  -> Gnd Rail 
-CE   -> D8
-CS   -> D9
-CLK  -> D13
-MOSI -> D11
-MISO -> D12
+CSE  -> D8
+CSN   -> D9
+SCK  -> D13
+MO -> D11
+MI -> D12
 IRO  -> Left vaccant
 
 Battery Connections :-
