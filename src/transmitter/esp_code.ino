@@ -18,7 +18,8 @@ VectorFloat gravity;    // [x, y, z]            gravity vector
 float ypr[3];           // [yaw, pitch, roll]   yaw/pitch/roll container and gravity vector
 
 // RECEIVER MAC Address
-uint8_t receiverMacAddress[] = {0xAC,0x67,0xB2,0x36,0x7F,0x28};  //AC:67:B2:36:7F:28
+uint8_t receiverMacAddress[] = {0x80,0xF3,0xDA,0x50,0xDC,0xA4};  
+//80:F3:DA:50:DC:A4
 
 struct PacketData 
 {
