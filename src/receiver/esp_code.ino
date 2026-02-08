@@ -79,14 +79,6 @@ void OnDataRecv(const uint8_t * mac, const uint8_t *incomingData, int len)
   {
     processCarMovement(BACKWARD_RIGHT);    
   }  
-  else if (receiverData.zAxisValue > 175)
-  {
-    processCarMovement(TURN_RIGHT);
-  }
-  else if (receiverData.zAxisValue < 75)
-  {
-    processCarMovement(TURN_LEFT);
-  }
   else if (receiverData.yAxisValue < 75)
   {
     processCarMovement(FORWARD);  
