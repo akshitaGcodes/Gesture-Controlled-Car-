@@ -1,5 +1,7 @@
 #include <esp_now.h>
 #include <WiFi.h>
+#include <esp_wifi.h>
+
 
 //These are needed for MPU
 #include "I2Cdev.h"
@@ -62,6 +64,9 @@ void setup()
 {
   Serial.begin(115200);
   WiFi.mode(WIFI_STA);
+    WiFi.disconnect();
+    esp_wifi_set_channel(1, WIFI_SECOND_CHAN_NONE);
+
   // Init ESP-NOW
   if (esp_now_init() != ESP_OK) 
   {
@@ -79,7 +84,7 @@ void setup()
   esp_now_peer_info_t peerInfo;
   memset(&peerInfo, 0, sizeof(peerInfo));
   memcpy(peerInfo.peer_addr, receiverMacAddress, 6);
-  peerInfo.channel = 0;  
+  peerInfo.channel = 1;  
   peerInfo.encrypt = false;
   
   // Add peer        
