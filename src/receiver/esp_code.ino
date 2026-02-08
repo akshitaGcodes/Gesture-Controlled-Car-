@@ -59,9 +59,14 @@ void OnDataRecv(const uint8_t * mac, const uint8_t *incomingData, int len)
     return;
   }
   memcpy(&receiverData, incomingData, sizeof(receiverData));
-  String inputData ;
-  inputData = inputData + "values " + receiverData.xAxisValue + "  " + receiverData.yAxisValue + "  " + receiverData.zAxisValue;
+  String inputData = "values ";
+  inputData += receiverData.xAxisValue;
+  inputData += "  ";
+  inputData += receiverData.yAxisValue;
+  inputData += "  ";
+  inputData += receiverData.zAxisValue;
   Serial.println(inputData);
+
 
   if ( receiverData.xAxisValue < 75 && receiverData.yAxisValue < 75)
   {
