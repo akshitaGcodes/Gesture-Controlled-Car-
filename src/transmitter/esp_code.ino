@@ -116,8 +116,14 @@ void loop()
 
     esp_err_t result = esp_now_send(receiverMacAddress, (uint8_t *) &data, sizeof(data));
 
-    String inputData  = inputData + "values " + xAxisValue + "  " + yAxisValue + "  " + zAxisValue;
+    String inputData = "values ";
+    inputData += xAxisValue;
+    inputData += "  ";
+    inputData += yAxisValue;
+    inputData += "  ";
+    inputData += zAxisValue;
     Serial.println(inputData);
+
     delay(50);            
   }
 }
