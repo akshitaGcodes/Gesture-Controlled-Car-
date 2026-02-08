@@ -1,6 +1,7 @@
 #include <esp_now.h>
 #include <WiFi.h>
 #include <vector>
+#include <esp_wifi.h>
 
 #define FORWARD 1
 #define BACKWARD 2
@@ -238,6 +239,9 @@ void setup()
   
   Serial.begin(115200);
   WiFi.mode(WIFI_STA);
+  WiFi.disconnect();
+  esp_wifi_set_channel(1, WIFI_SECOND_CHAN_NONE);
+
   Serial.println("CAR ESP32 STARTED");
   // Init ESP-NOW
   if (esp_now_init() != ESP_OK) 
