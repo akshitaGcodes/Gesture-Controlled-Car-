@@ -1,7 +1,6 @@
 #include <esp_now.h>
 #include <WiFi.h>
 #include <vector>
-#include <esp_wifi.h>
 
 #define FORWARD 1
 #define BACKWARD 2
@@ -50,24 +49,21 @@ struct PacketData
   byte yAxisValue;
   byte zAxisValue;
 };
+
 PacketData receiverData;
 
 // callback function that will be executed when data is received
-void OnDataRecv(const uint8_t * mac, const uint8_t *incomingData, int len) 
+//void OnDataRecv(const uint8_t * mac, const uint8_t *incomingData, int len) 
+void OnDataRecv(const esp_now_recv_info_t *recv_info, const uint8_t *incomingData, int len)
 {
   if (len == 0)
   {
     return;
   }
   memcpy(&receiverData, incomingData, sizeof(receiverData));
-  String inputData = "values ";
-  inputData += receiverData.xAxisValue;
-  inputData += "  ";
-  inputData += receiverData.yAxisValue;
-  inputData += "  ";
-  inputData += receiverData.zAxisValue;
+  String inputData ;
+  inputData = inputData + "values " + receiverData.xAxisValue + "  " + receiverData.yAxisValue + "  " + receiverData.zAxisValue;
   Serial.println(inputData);
-
 
   if ( receiverData.xAxisValue < 75 && receiverData.yAxisValue < 75)
   {
@@ -220,15 +216,29 @@ void rotateMotor(int motorNumber, int motorSpeed)
   ledcWrite(motorPins[motorNumber].pwmSpeedChannel, abs(motorSpeed));
 }
 
+//void setUpPinModes()
+//{
+//   for (int i = 0; i < motorPins.size(); i++)
+//   {
+//     pinMode(motorPins[i].pinIN1, OUTPUT);
+//     pinMode(motorPins[i].pinIN2, OUTPUT);  
+//     //Set up PWM for motor speed
+//     ledcSetup(motorPins[i].pwmSpeedChannel, PWMFreq, PWMResolution);  
+//     ledcAttachPin(motorPins[i].pinEn, motorPins[i].pwmSpeedChannel);     
+//     rotateMotor(i, STOP);  
+//   }
+// }
+
 void setUpPinModes()
 {
   for (int i = 0; i < motorPins.size(); i++)
   {
     pinMode(motorPins[i].pinIN1, OUTPUT);
     pinMode(motorPins[i].pinIN2, OUTPUT);  
-    //Set up PWM for motor speed
-    ledcSetup(motorPins[i].pwmSpeedChannel, PWMFreq, PWMResolution);  
-    ledcAttachPin(motorPins[i].pinEn, motorPins[i].pwmSpeedChannel);     
+    
+    // New combined PWM attachment function for Core 3.x
+    ledcAttachChannel(motorPins[i].pinEn, PWMFreq, PWMResolution, motorPins[i].pwmSpeedChannel);  
+    
     rotateMotor(i, STOP);  
   }
 }
@@ -239,10 +249,7 @@ void setup()
   
   Serial.begin(115200);
   WiFi.mode(WIFI_STA);
-  WiFi.disconnect();
-  esp_wifi_set_channel(1, WIFI_SECOND_CHAN_NONE);
 
-  Serial.println("CAR ESP32 STARTED");
   // Init ESP-NOW
   if (esp_now_init() != ESP_OK) 
   {
