@@ -1,7 +1,5 @@
 #include <esp_now.h>
 #include <WiFi.h>
-#include <esp_wifi.h>
-
 
 //These are needed for MPU
 #include "I2Cdev.h"
@@ -20,9 +18,8 @@ VectorFloat gravity;    // [x, y, z]            gravity vector
 float ypr[3];           // [yaw, pitch, roll]   yaw/pitch/roll container and gravity vector
 
 // RECEIVER MAC Address
-uint8_t receiverMacAddress[] = {0x80,0xF3,0xDA,0x50,0xDC,0xA4};  
-//80:F3:DA:50:DC:A4
-
+//uint8_t receiverMacAddress[] = {0xAC,0x67,0xB2,0x36,0x7F,0x28};  //AC:67:B2:36:7F:28
+uint8_t receiverMacAddress[] = {0x80,0xF3,0xDA,0x50,0xDC,0xA4};
 struct PacketData 
 {
   byte xAxisValue;
@@ -32,9 +29,14 @@ struct PacketData
 PacketData data;
 
 // callback when data is sent
-void OnDataSent(const uint8_t *mac_addr, esp_now_send_status_t status)
-{
-  //Serial.println(status == ESP_NOW_SEND_SUCCESS ? "Message sent" : "Message failed");
+//void OnDataSent(const uint8_t *mac_addr, esp_now_send_status_t status)
+//{
+//Serial.println(status == ESP_NOW_SEND_SUCCESS ? "Message sent" : "Message failed");
+//}
+void OnDataSent(const wifi_tx_info_t *info, esp_now_send_status_t status)
+ {
+  Serial.print("\r\nLast Packet Send Status:\t");
+  Serial.println(status == ESP_NOW_SEND_SUCCESS ? "Delivery Success" : "Delivery Fail");
 }
 
 void setupMPU()
@@ -64,9 +66,6 @@ void setup()
 {
   Serial.begin(115200);
   WiFi.mode(WIFI_STA);
-    WiFi.disconnect();
-    esp_wifi_set_channel(1, WIFI_SECOND_CHAN_NONE);
-
   // Init ESP-NOW
   if (esp_now_init() != ESP_OK) 
   {
@@ -84,7 +83,7 @@ void setup()
   esp_now_peer_info_t peerInfo;
   memset(&peerInfo, 0, sizeof(peerInfo));
   memcpy(peerInfo.peer_addr, receiverMacAddress, 6);
-  peerInfo.channel = 1;  
+  peerInfo.channel = 0;  
   peerInfo.encrypt = false;
   
   // Add peer        
