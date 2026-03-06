@@ -30,15 +30,6 @@ int normalize(uint8_t value)
 
 void rotateMotor(int rightMotorSpeed, int leftMotorSpeed)
 {
-  rightMotorSpeed = constrain(rightMotorSpeed, -255, 255);
-  leftMotorSpeed  = constrain(leftMotorSpeed,  -255, 255);
-
-  // 🔥 Reverse Boost Compensation
-  if (rightMotorSpeed < 0)
-    rightMotorSpeed *= 1.2;   // 20% boost in reverse
-
-  if (leftMotorSpeed < 0)
-    leftMotorSpeed *= 1.2;
 
   rightMotorSpeed = constrain(rightMotorSpeed, -255, 255);
   leftMotorSpeed  = constrain(leftMotorSpeed,  -255, 255);
@@ -49,8 +40,8 @@ void rotateMotor(int rightMotorSpeed, int leftMotorSpeed)
   digitalWrite(leftMotorPin1, leftMotorSpeed > 0);
   digitalWrite(leftMotorPin2, leftMotorSpeed < 0);
 
-  ledcWrite(enableRightMotor, abs(rightMotorSpeed));
-  ledcWrite(enableLeftMotor,  abs(leftMotorSpeed));
+  ledcWrite(0, abs(rightMotorSpeed));
+  ledcWrite(1, abs(leftMotorSpeed));
 }
 void OnDataRecv(const esp_now_recv_info_t *info, const uint8_t *data, int len)
 {
@@ -64,7 +55,7 @@ void OnDataRecv(const esp_now_recv_info_t *info, const uint8_t *data, int len)
   if (abs(steering) < 35) steering = 0;
 
   // 🔥 Reduce steering sensitivity (prevents twitch)
-  steering *= 0.6;
+  steering = steering * 6 / 10;
 
   int targetRight = throttle - steering;
   int targetLeft  = throttle + steering;
@@ -73,8 +64,8 @@ void OnDataRecv(const esp_now_recv_info_t *info, const uint8_t *data, int len)
   targetLeft  *= 2;
 
   // 🔥 Smoothing
-  currentRight = currentRight * 0.75 + targetRight * 0.25;
-  currentLeft  = currentLeft  * 0.75 + targetLeft  * 0.25;
+  currentRight = (currentRight * 3 + targetRight) / 4;
+  currentLeft  = (currentLeft * 3 + targetLeft) / 4;
 
   // 🔥 Minimum motor threshold (prevents stutter)
   if (currentRight != 0 && abs(currentRight) < 40)
@@ -96,8 +87,11 @@ void setup()
   pinMode(leftMotorPin2, OUTPUT);
 
   // 🔥 20kHz PWM (silent)
-  ledcAttach(enableRightMotor, 20000, 8);
-  ledcAttach(enableLeftMotor,  20000, 8);
+  ledcSetup(0, 20000, 8);
+  ledcAttachPin(enableRightMotor, 0);
+
+  ledcSetup(1, 20000, 8);
+  ledcAttachPin(enableLeftMotor, 1);
 
   WiFi.mode(WIFI_STA);
   esp_wifi_set_channel(1, WIFI_SECOND_CHAN_NONE);
