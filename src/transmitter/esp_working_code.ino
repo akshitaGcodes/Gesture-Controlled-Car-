@@ -39,7 +39,8 @@ void setup() {
 
   Wire.begin();
   mpu.initialize();
-
+  mpu.CalibrateAccel(6);
+  mpu.CalibrateGyro(6);
   WiFi.mode(WIFI_STA);
   esp_wifi_set_channel(1, WIFI_SECOND_CHAN_NONE);
 
@@ -66,5 +67,5 @@ void loop() {
 
   esp_now_send(receiverMac, (uint8_t *)&sensorData, sizeof(sensorData));
 
-  delay(20);
+  delay(10);
 }
