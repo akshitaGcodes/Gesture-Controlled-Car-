@@ -1,6 +1,5 @@
 Components :-
 4 motors
-1 Arduino Nano
 1 ESP 32
 1 UltraSonic Sensor
 1 Breadboard
@@ -26,15 +25,6 @@ Input 2 -> D27
 Input 3 -> D26
 Input 4 -> D25
 
-Receiver - ESP 32 Connections :-
-VCC  -> +5V
-GND  -> Gnd Rail 
-CSE  -> D8
-CSN   -> D9
-SCK  -> D13
-MO -> D11
-MI -> D12
-IRO  -> Left vaccant
 
 Battery Connections :-
 +ve -> to +ve rail(where motor driver's 12 V is connected)
