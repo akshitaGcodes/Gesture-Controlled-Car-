@@ -18,7 +18,7 @@ INT  ->
 
 Battery Connections :-
 +ve -> Vin
--ve -> GND Nano
+-ve -> GND 
 
 Button Connections :-
 positive - D19
