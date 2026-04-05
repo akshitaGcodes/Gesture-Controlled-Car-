@@ -1,1 +1,25 @@
+Components :-
+1 ESP 32
+1 Breadboard Mini
+1 Battery Source (9V)
+1 MPU6050(Accelerator & Gyroscope)
+1 Button
 
+
+MPU6050(Accelerator & Gyroscope) :-
+VCC  -> 3V3
+GND  -> GND 
+SCL  -> D22
+SDA  -> D21
+XDA  ->
+XCL  ->
+ADO  ->
+INT  ->
+
+Battery Connections :-
++ve -> Vin
+-ve -> GND Nano
+
+Button Connections :-
+positive - D19
+Negative gnd
