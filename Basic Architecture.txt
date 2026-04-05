@@ -1,5 +1,7 @@
 🛠️ System Architecture
 
+We opted for the ESP32 over the NRF24L01 to reduce hardware complexity and signal noise. By using the ESP-NOW protocol, we achieved ultra-low latency without external modules. Its dual-core processor handles sensor filtering and motor control simultaneously, offering superior stability and built-in IoT scalability for future telemetry.
+
 1.The Transmitter (Glove)
 Processor: Arduino Nano/ESP32
 Sensor: MPU6050 (Accelerometer & Gyroscope)
@@ -15,3 +17,7 @@ Alternative Signal Receiver (can be used): NRF24L01 + PA + LNA & Adapter
 Motor Driver: L298N Dual H-Bridge
 Actuators: DC Gear Motors
 Logic: Receives commands and adjusts motor polarity and speed.
+
+While our repository includes schematics for both NRF24L01 and ESP32, the final build utilizes the ESP32. We transitioned to this platform to eliminate the hardware overhead and potential signal interference of external radio modules.
+
+By leveraging the ESP-NOW protocol, we achieved ultra-low latency with fewer physical failure points. Additionally, the ESP32’s dual-core architecture allowed us to isolate sensor processing from motor control, ensuring a more stable and responsive gesture-controlled experience.
