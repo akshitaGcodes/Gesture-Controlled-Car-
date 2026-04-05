@@ -1,4 +1,3 @@
-//Main COde with ESP 32 
 #include <esp_now.h>
 #include <WiFi.h>
 #include <esp_wifi.h>
@@ -7,7 +6,9 @@
 
 MPU6050 mpu;
 
-uint8_t receiverMac[] = {0x80,0xF3,0xDA,0x50,0xDC,0xA4};  // change
+#define SWITCH_PIN 18
+
+uint8_t receiverMac[] = {0x80,0xF3,0xDA,0x50,0xDC,0xA4};  // change if needed
 
 typedef struct struct_message {
   uint8_t x;
@@ -24,24 +25,23 @@ void OnDataSent(const wifi_tx_info_t *info, esp_now_send_status_t status) {
 // Mapping function
 uint8_t convertToByte(int16_t value) {
 
-  // constrain to safe range
   if (value < -16384) value = -16384;
-  if (value >  16384) value =  16384;
+  if (value > 16384) value = 16384;
 
-  // shift range (-16384 → +16384) to (0 → 32768)
   value = value + 16384;
 
-  // scale to 0 → 254
   return (uint8_t)((value * 254) / 32768);
 }
 
 void setup() {
+
   Serial.begin(115200);
 
   Wire.begin();
   mpu.initialize();
-  mpu.CalibrateAccel(6);
-  mpu.CalibrateGyro(6);
+
+  pinMode(SWITCH_PIN, INPUT_PULLUP);   // switch connected to GND
+
   WiFi.mode(WIFI_STA);
   esp_wifi_set_channel(1, WIFI_SECOND_CHAN_NONE);
 
@@ -57,16 +57,28 @@ void setup() {
 
 void loop() {
 
-  int16_t ax, ay, az;
-  int16_t gx, gy, gz;
+  bool switchState = digitalRead(SWITCH_PIN);
 
-  mpu.getMotion6(&ax, &ay, &az, &gx, &gy, &gz);
+  // pressed = LOW
+  if (switchState == LOW) {
 
-  sensorData.x = convertToByte(ax);
-  sensorData.y = convertToByte(ay);
-  sensorData.z = convertToByte(az);
+    int16_t ax, ay, az;
+    int16_t gx, gy, gz;
 
-  esp_now_send(receiverMac, (uint8_t *)&sensorData, sizeof(sensorData));
+    mpu.getMotion6(&ax, &ay, &az, &gx, &gy, &gz);
 
-  delay(10);
+    sensorData.x = convertToByte(ax);
+    sensorData.y = convertToByte(ay);
+    sensorData.z = convertToByte(az);
+
+    esp_now_send(receiverMac, (uint8_t *)&sensorData, sizeof(sensorData));
+
+    Serial.println("Sending data");
+
+  } 
+  else {
+    Serial.println("Switch OFF");
+  }
+
+  delay(20);
 }
