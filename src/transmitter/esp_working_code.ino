@@ -8,7 +8,7 @@ MPU6050 mpu;
 
 #define SWITCH_PIN 18
 
-uint8_t receiverMac[] = {0x80,0xF3,0xDA,0x50,0xDC,0xA4};  // change if needed
+uint8_t receiverMac[] = {0x80,0xF3,0xDA,0x50,0xDC,0xA4};
 
 typedef struct struct_message {
   uint8_t x;
@@ -22,7 +22,6 @@ void OnDataSent(const wifi_tx_info_t *info, esp_now_send_status_t status) {
   Serial.println(status == ESP_NOW_SEND_SUCCESS ? "Success" : "Fail");
 }
 
-// Mapping function
 uint8_t convertToByte(int16_t value) {
 
   if (value < -16384) value = -16384;
@@ -40,7 +39,7 @@ void setup() {
   Wire.begin();
   mpu.initialize();
 
-  pinMode(SWITCH_PIN, INPUT_PULLUP);   // switch connected to GND
+  pinMode(SWITCH_PIN, INPUT_PULLUP);
 
   WiFi.mode(WIFI_STA);
   esp_wifi_set_channel(1, WIFI_SECOND_CHAN_NONE);
@@ -59,7 +58,7 @@ void loop() {
 
   bool switchState = digitalRead(SWITCH_PIN);
 
-  // pressed = LOW
+  //pressed=LOW
   if (switchState == LOW) {
 
     int16_t ax, ay, az;
