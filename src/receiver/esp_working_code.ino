@@ -2,7 +2,7 @@
 #include <WiFi.h>
 #include <esp_wifi.h>
 
-// ========== MOTOR PINS ==========
+//motor pins
 #define rightMotorPin1  14
 #define rightMotorPin2  27
 #define leftMotorPin1   26
@@ -10,13 +10,11 @@
 
 #define enableRightMotor 33
 #define enableLeftMotor  32
-// =================================
 
-// ===== ULTRASONIC SENSOR =====
+//ultrasonic pins
 #define TRIG_PIN 4
 #define ECHO_PIN 5
-#define STOP_DISTANCE 25   // cm
-// ==============================
+#define STOP_DISTANCE 25   
 
 int maxStep = 10;
 
@@ -36,7 +34,6 @@ int normalize(uint8_t value)
   return (int)value - 127;
 }
 
-// ===== Measure Distance =====
 long getDistance()
 {
   digitalWrite(TRIG_PIN, LOW);
@@ -52,7 +49,7 @@ long getDistance()
   return distance;
 }
 
-// ===== Motor Control =====
+//controlling motora
 void rotateMotor(int rightMotorSpeed, int leftMotorSpeed)
 {
   rightMotorSpeed = constrain(rightMotorSpeed, -255, 255);
@@ -68,7 +65,7 @@ void rotateMotor(int rightMotorSpeed, int leftMotorSpeed)
   ledcWrite(enableLeftMotor,  abs(leftMotorSpeed));
 }
 
-// ===== ESP-NOW Receive =====
+//esp now
 void OnDataRecv(const esp_now_recv_info_t *info, const uint8_t *data, int len)
 {
   memcpy(&incomingData, data, sizeof(incomingData));
@@ -100,7 +97,7 @@ void OnDataRecv(const esp_now_recv_info_t *info, const uint8_t *data, int len)
   if (currentLeft != 0 && abs(currentLeft) < 40)
       currentLeft = (currentLeft > 0) ? 40 : -40;
 
-  // ===== Ultrasonic Safety =====
+  //ultrasonic safety
   long distance = getDistance();
 
   if (distance > 0 && distance < STOP_DISTANCE && throttle > 0)
@@ -134,7 +131,7 @@ void setup()
   esp_now_init();
   esp_now_register_recv_cb(OnDataRecv);
 
-  Serial.println("🚗 Gesture Car + Ultrasonic Ready!");
+  Serial.println(" Gesture Car + Ultrasonic Ready!");
 }
 
 void loop()
